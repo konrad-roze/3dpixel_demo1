@@ -40,15 +40,15 @@
 				
 				//scene.createDefaultCamera(true, true, true);
 				
-				var camera = new BABYLON.DeviceOrientationCamera("DevOr_camera", new BABYLON.Vector3(0, 0, 32), scene);
-				camera.setTarget(new BABYLON.Vector3(0, 0, -1));
+				var camera = new BABYLON.DeviceOrientationCamera("DevOr_camera", new BABYLON.Vector3(0, 32, 0), scene);
+				camera.setTarget(new BABYLON.Vector3(0, 0, 0));
 				camera.angularSensibility = 10;
 				camera.moveSensibility = 10;
 				camera.mode = BABYLON.Camera.ORTHOGRAPHIC_CAMERA;
-				camera.orthoBottom = -10*4;
-				camera.orthoTop = 10*4;
-				camera.orthoLeft = -16*4;
-				camera.orthoRight = 16*4;
+				camera.orthoBottom = -10;
+				camera.orthoTop = 10;
+				camera.orthoLeft = -16;
+				camera.orthoRight = 16;
 				camera.attachControl(canvas, true);
 				
 				
