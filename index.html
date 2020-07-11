@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Larry Basic</title>
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+	<script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.js"></script>
+
+    <style>
+        html,
+        body {
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #canvas {
+            width: 100%;
+            height: 100%;
+            touch-action: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            var canvas = document.getElementById('canvas');
+            var engine = new BABYLON.Engine(canvas, true);
+            var createScene = function () {
+                var scene = new BABYLON.Scene(engine);
+                scene.clearColor = new BABYLON.Color3.Blue();
+				scene.ambientColor = new BABYLON.Color3(1, 1, 1);
+                //var camera = new BABYLON.FreeCamera('camera1', new BABYLON.
+                //Vector3(0, 0, -10), scene);
+                //camera.setTarget(BABYLON.Vector3.Zero());
+                //var box = BABYLON.Mesh.CreateBox("Box", 4.0, scene);
+				scene.createDefaultCamera(true, true, true);
+				
+				BABYLON.SceneLoader.Append("", 
+				                           "larry.glb", scene, function (scene) {
+					
+					// Create a default arc rotate camera and light.
+					//scene.createDefaultCameraOrLight(true, true, true);
+					m = scene.meshes[2]
+					m.material.ambientColor = new BABYLON.Color3(1, 1, 1);
+
+					// The default camera looks at the back of the asset.
+					// Rotate the camera by 180 degrees to the front of the asset.
+					//scene.activeCamera.alpha += Math.PI;
+				});
+                return scene;
+            }
+    
+            var scene = createScene();
+            engine.runRenderLoop(function () {
+                scene.render();
+            });
+        });
+    </script>
+</body>
+</html>
