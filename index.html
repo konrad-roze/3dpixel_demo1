@@ -37,7 +37,20 @@
                 //Vector3(0, 0, -10), scene);
                 //camera.setTarget(BABYLON.Vector3.Zero());
                 //var box = BABYLON.Mesh.CreateBox("Box", 4.0, scene);
-				scene.createDefaultCamera(true, true, true);
+				
+				//scene.createDefaultCamera(true, true, true);
+				
+				var camera = new BABYLON.DeviceOrientationCamera("DevOr_camera", new BABYLON.Vector3(0, 0, 32), scene);
+				camera.setTarget(new BABYLON.Vector3(0, 0, -1));
+				camera.angularSensibility = 10;
+				camera.moveSensibility = 10;
+				camera.mode = BABYLON.Camera.ORTHOGRAPHIC_CAMERA;
+				camera.orthoBottom = -10*4;
+				camera.orthoTop = 10*4;
+				camera.orthoLeft = -16*4;
+				camera.orthoRight = 16*4;
+				camera.attachControl(canvas, true);
+				
 				
 				BABYLON.SceneLoader.Append("", 
 				                           "larry.glb", scene, function (scene) {
