@@ -71,11 +71,13 @@
             }
     
             var scene = createScene();
-			
-			console.log("Hello world");
-			window.addEventListener("deviceorientation", function(evt) {
-				console.log(evt);
-			});
+			if (window.DeviceOrientationEvent) {
+				window.addEventListener("deviceorientation", function(evt) {
+					console.log(evt);
+				});
+			} else {
+				console.log("Browser doesn't support orientation.")
+			}
 
             engine.runRenderLoop(function () {
                 scene.render();
