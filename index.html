@@ -28,6 +28,9 @@
     <script>
         window.addEventListener('DOMContentLoaded', function () {
             var canvas = document.getElementById('canvas');
+			canvas.width = window.innerWidth;
+			canvas.height = 200/200*window.innerWidth;
+
             var engine = new BABYLON.Engine(canvas, true);
             var createScene = function () {
                 var scene = new BABYLON.Scene(engine);
@@ -40,7 +43,8 @@
 				
 				//scene.createDefaultCamera(true, true, true);
 				
-				var camera = new BABYLON.DeviceOrientationCamera("DevOr_camera", new BABYLON.Vector3(0, 32, 0), scene);
+				//var camera = new BABYLON.DeviceOrientationCamera("DevOr_camera", new BABYLON.Vector3(0, 32, 0), scene);
+				var camera = new BABYLON.TargetCamera("main_camera", new BABYLON.Vector3(0, 32, 0), scene);
 				camera.setTarget(new BABYLON.Vector3(0, 0, 0));
 				camera.angularSensibility = 10;
 				camera.moveSensibility = 10;
@@ -50,7 +54,6 @@
 				camera.orthoLeft = -16;
 				camera.orthoRight = 16;
 				camera.attachControl(canvas, true);
-				
 				
 				BABYLON.SceneLoader.Append("", 
 				                           "larry.glb", scene, function (scene) {
@@ -68,6 +71,12 @@
             }
     
             var scene = createScene();
+			
+			console.log("Hello world");
+			window.addEventListener("deviceorientation", function(evt) {
+				console.log(evt);
+			});
+
             engine.runRenderLoop(function () {
                 scene.render();
             });
