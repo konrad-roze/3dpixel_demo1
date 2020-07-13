@@ -78,6 +78,16 @@
     
             var scene = createScene();
 			
+			var newDiv = document.createElement("div"); 
+			var textlabel = document.createTextNode("Hello text"); 
+			newDiv.appendChild(textlabel);
+			newDiv.style.position= 'absolute';
+			newDiv.style.right= '0%';
+			newDiv.style.top= '0%';
+			newDiv.style.background= 'white';
+			newDiv.style.fontSize= '20px';
+			document.body.appendChild(newDiv); 
+			
 			if (window.DeviceOrientationEvent && 'ontouchstart' in window) {
 				window.addEventListener("deviceorientation", function(evt) {
 					console.log(evt);
@@ -115,9 +125,12 @@
 			}
 			updateViewport()	
 			window.addEventListener("resize", updateViewport)  
+			
+			
 				
 			window.addEventListener("deviceorientation", deviceRotation);
 			function deviceRotation(evt) {
+				textlabel.nodeValue = "" + evt.alpha + " " + evt.beta + " " + evt.gamma
 				degrees = evt.beta
 				radians = BABYLON.Angle.FromDegrees(degrees).radians
 				radians = degrees * Math.PI/180
