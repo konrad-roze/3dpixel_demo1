@@ -7,29 +7,29 @@
 	<script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.js"></script>
 
     <style>
-        html,
-        body {
-            overflow: hidden;
-            width: 100%;
+        html, body {
+			overflow: hidden;
+			width: 100%;
             height: 100%;
-            margin: 0;
-            padding: 0;
-        }
+			margin: 0;
+			padding: 0;
+			background: black;
+		}
+
 
         #canvas {
-            width: 100%;
+			width: 100%;
             height: 100%;
             touch-action: none;
         }
     </style>
 </head>
 <body>
-    <canvas id="canvas"></canvas>
+	<canvas id="canvas"></canvas>
     <script>
         window.addEventListener('DOMContentLoaded', function () {
             var canvas = document.getElementById('canvas');
-			canvas.width = window.innerWidth;
-			canvas.height = 200/200*window.innerWidth;
+			
 
             var engine = new BABYLON.Engine(canvas, true);
             var createScene = function () {
@@ -53,7 +53,7 @@
 				camera.orthoTop = 10;
 				camera.orthoLeft = -16;
 				camera.orthoRight = 16;
-				camera.attachControl(canvas, true);
+				//camera.attachControl(canvas, true);
 				
 				BABYLON.SceneLoader.Append("", 
 				                           "larry.glb", scene, function (scene) {
@@ -71,17 +71,62 @@
             }
     
             var scene = createScene();
-			if (window.DeviceOrientationEvent) {
+			
+			if (window.DeviceOrientationEvent && 'ontouchstart' in window) {
 				window.addEventListener("deviceorientation", function(evt) {
 					console.log(evt);
 				});
 			} else {
 				console.log("Browser doesn't support orientation.")
 			}
+			
+			function resizeViewport(w, h, ratio) {
+				vx = vy = 0;
+				vw = vh = 0;
+				
+				if (w >= h * ratio) {
+					vh = 1;
+					vy = 0
+					vw = h*ratio / w
+					vx = (1 - vw) / 2
+				} else if (h >= w / ratio) {
+					vw = 1
+					vx = 0
+					vh =  (w / ratio) / h
+					vy = (1 - vh) / 2
+				}
+				c = scene.activeCamera
+				c.viewport.x = vx;
+				c.viewport.y = vy;
+				c.viewport.width = vw;
+				c.viewport.height = vh;
+			}
+			
+			resizeViewport(canvas.width, canvas.height, 320/200);
+			
+			window.addEventListener("resize", function () {
+				resizeViewport(canvas.width, canvas.height, 320/200);
+				engine.resize();
+				
+			});
+			
+			window.addEventListener("deviceorientation", deviceRotation);
+			function deviceRotation(evt) {
+				degrees = evt.beta
+				radians = BABYLON.Angle.FromDegrees(degrees).radians
+				room = scene.getMeshByName("room")
+				ui = scene.getMeshByName("ui")
+				room.rotation.y = radians
+				ui.rotation.y = radians
+
+			}
+
 
             engine.runRenderLoop(function () {
                 scene.render();
             });
+			
+			
         });
     </script>
 </body>
