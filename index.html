@@ -66,6 +66,12 @@
 					// The default camera looks at the back of the asset.
 					// Rotate the camera by 180 degrees to the front of the asset.
 					//scene.activeCamera.alpha += Math.PI;
+					degrees = 90
+					radians = BABYLON.Angle.FromDegrees(degrees).radians	
+					radians = Math.PI/6					
+					room = scene.getMeshByName("room")
+					ui = scene.getMeshByName("ui")
+					//room.rotation = new BABYLON.Vector3(Math.PI/6,0,0);
 				});
                 return scene;
             }
@@ -102,22 +108,23 @@
 				c.viewport.height = vh;
 			}
 			
-			resizeViewport(canvas.width, canvas.height, 320/200);
-			
-			window.addEventListener("resize", function () {
-				resizeViewport(canvas.width, canvas.height, 320/200);
-				engine.resize();
+			function updateViewport()
+			{
+				resizeViewport(window.innerWidth, window.innerHeight, 320/200);
+				engine.resize()
+			}
+			updateViewport()	
+			window.addEventListener("resize", updateViewport)  
 				
-			});
-			
 			window.addEventListener("deviceorientation", deviceRotation);
 			function deviceRotation(evt) {
 				degrees = evt.beta
 				radians = BABYLON.Angle.FromDegrees(degrees).radians
+				radians = degrees * Math.PI/180
 				room = scene.getMeshByName("room")
 				ui = scene.getMeshByName("ui")
-				room.rotation.y = radians
-				ui.rotation.y = radians
+				room.rotation = new BABYLON.Vector3(radians,0,0);
+				ui.rotation = new BABYLON.Vector3(radians,0,0);
 
 			}
 
