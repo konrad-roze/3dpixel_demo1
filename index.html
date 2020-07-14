@@ -34,7 +34,7 @@
             var engine = new BABYLON.Engine(canvas, true);
             var createScene = function () {
                 var scene = new BABYLON.Scene(engine);
-                scene.clearColor = new BABYLON.Color3.Blue();
+                scene.clearColor = new BABYLON.Color3.Black();
 				scene.ambientColor = new BABYLON.Color3(1, 1, 1);
                 //var camera = new BABYLON.FreeCamera('camera1', new BABYLON.
                 //Vector3(0, 0, -10), scene);
@@ -63,15 +63,18 @@
 					m = scene.meshes[2]
 					m.material.ambientColor = new BABYLON.Color3(1, 1, 1);
 
-					// The default camera looks at the back of the asset.
-					// Rotate the camera by 180 degrees to the front of the asset.
-					//scene.activeCamera.alpha += Math.PI;
-					degrees = 90
-					radians = BABYLON.Angle.FromDegrees(degrees).radians	
-					radians = Math.PI/6					
-					room = scene.getMeshByName("room")
-					ui = scene.getMeshByName("ui")
-					//room.rotation = new BABYLON.Vector3(Math.PI/6,0,0);
+
+					var i = 0;
+					for (var m in scene.meshes) {
+						if (i > 1) {
+							m.parent = scene.meshes[1]
+						}
+						i++
+					}
+
+					//s = scene.getNodeByName("scene")
+					//var radians = 10*Math.PI/180
+					//s.rotation = new BABYLON.Vector3(radians,0,0);
 				});
                 return scene;
             }
@@ -127,18 +130,18 @@
 			window.addEventListener("resize", updateViewport)  
 			
 			
-				
+			function clip(num, min, max) {
+				return num <= min ? min : num >= max ? max : num;
+}
 			window.addEventListener("deviceorientation", deviceRotation);
 			function deviceRotation(evt) {
 				textlabel.nodeValue = "" + Math.round(evt.alpha) + " " + Math.round(evt.beta) + " " + Math.round(evt.gamma)
-				degrees = evt.beta
-				radians = BABYLON.Angle.FromDegrees(degrees).radians
+				degrees = clip(evt.beta - 90, -10, 10)
+				
+				//radians = BABYLON.Angle.FromDegrees(degrees).radians
 				radians = degrees * Math.PI/180
-				room = scene.getMeshByName("room")
-				ui = scene.getMeshByName("ui")
-				room.rotation = new BABYLON.Vector3(radians,0,0);
-				ui.rotation = new BABYLON.Vector3(radians,0,0);
-
+				scene = scene.getNodeByName("scene")
+				scene.rotation = new BABYLON.Vector3(radians,0,0);
 			}
 
 
