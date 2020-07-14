@@ -72,9 +72,9 @@
 						i++
 					}
 
-					//s = scene.getNodeByName("scene")
-					//var radians = 10*Math.PI/180
-					//s.rotation = new BABYLON.Vector3(radians,0,0);
+					s = scene.getNodeByName("scene")
+					var radians = 10*Math.PI/180
+					s.rotation = new BABYLON.Vector3(radians,0,0);
 				});
                 return scene;
             }
@@ -130,13 +130,15 @@
 			window.addEventListener("resize", updateViewport)  
 			
 			
-			function clip(num, min, max) {
-				return num <= min ? min : num >= max ? max : num;
-}
+			//function clip(num, min, max) {
+			//	return num <= min ? min : num >= max ? max : num;
+			//}
+			
 			window.addEventListener("deviceorientation", deviceRotation);
 			function deviceRotation(evt) {
 				textlabel.nodeValue = "" + Math.round(evt.alpha) + " " + Math.round(evt.beta) + " " + Math.round(evt.gamma)
-				degrees = evt.beta //clip(evt.beta - 90, -10, 10)
+				degrees = evt.beta 
+				//clip(evt.beta - 90, -10, 10)
 				
 				//radians = BABYLON.Angle.FromDegrees(degrees).radians
 				radians = degrees * Math.PI/180
