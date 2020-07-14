@@ -136,7 +136,7 @@
 			window.addEventListener("deviceorientation", deviceRotation);
 			function deviceRotation(evt) {
 				textlabel.nodeValue = "" + Math.round(evt.alpha) + " " + Math.round(evt.beta) + " " + Math.round(evt.gamma)
-				degrees = clip(evt.beta - 90, -10, 10)
+				degrees = evt.beta //clip(evt.beta - 90, -10, 10)
 				
 				//radians = BABYLON.Angle.FromDegrees(degrees).radians
 				radians = degrees * Math.PI/180
